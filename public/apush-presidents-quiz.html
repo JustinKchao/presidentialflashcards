@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Presidents Test</title>
+    <style>
+      /* Page and general styles */
+      @page {
+        size: auto;
+        margin: 8mm;
+      }
+      :root {
+        --bg: #fff;
+        --text: #111;
+        --muted: #666;
+        --accent: #2b6cb0;
+        --border: #ddd;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          Roboto,
+          'Helvetica Neue',
+          Arial;
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 8mm;
+        -webkit-print-color-adjust: exact;
+      }
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      header {
+        margin-bottom: 6px;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0 0 2px;
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 0 0 10px;
+        font-size: 13px;
+      }
+      .pdf-link {
+        font-size: 12px;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .controls {
+        margin: 8px 0 12px;
+      }
+      .print-btn {
+        display: inline-block;
+        background: var(--accent);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 6px;
+        table-layout: fixed;
+      }
+      thead th {
+        text-align: left;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--border);
+        font-weight: 700;
+        font-size: 13px;
+        background: transparent;
+        position: sticky;
+        top: 0;
+      }
+      tbody td {
+        padding: 6px 8px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        vertical-align: middle;
+      }
+      .num {
+        width: 44px;
+        text-align: right;
+        padding-right: 12px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      /* Inputs — sized to avoid overlap and allow handwriting */
+      .input {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        background: white;
+        color: var(--text);
+        box-sizing: border-box;
+        font-size: 13px;
+        height: 34px;
+      }
+      /* Avoid page-breaks inside rows; allow break after groups */
+      tr {
+        page-break-inside: avoid;
+      }
+      tbody tr {
+        break-inside: avoid;
+        -webkit-column-break-inside: avoid;
+      }
+      /* Make table header repeat in print */
+      thead {
+        display: table-header-group;
+      }
+      tfoot {
+        display: table-footer-group;
+      }
+      /* Print-specific tweaks */
+      @media print {
+        body {
+          padding: 4mm;
+        }
+        .controls,
+        .print-only {
+          display: none;
+        }
+        .container {
+          max-width: 100%;
+          padding: 0;
+          margin: 0;
+        }
+        .input {
+          background: white;
+          border: 1px solid #bbb;
+        }
+        thead th {
+          background: transparent;
+          color: var(--text);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Presidents Quiz</h1>
+        <p class="lead">Fill in each president's name, start year, end year, and party.</p>
+        <div class="controls print-only">
+          <a class="print-btn" href="#" onclick="window.print();return false;"
+            >Print (Ctrl/Cmd+P)</a
+          >
+          &nbsp;&nbsp;<a class="pdf-link" href="/mnt/data/APUSH Presidents.pdf" download
+            >Download source PDF</a
+          >
+        </div>
+      </header>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px">#</th>
+            <th>President name</th>
+            <th style="width: 120px">Start year</th>
+            <th style="width: 120px">End year</th>
+            <th style="width: 160px">Party</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">1</td>
+            <td><input class="input" type="text" name="name_1" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_1" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_1" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_1" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">2</td>
+            <td><input class="input" type="text" name="name_2" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_2" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_2" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_2" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">3</td>
+            <td><input class="input" type="text" name="name_3" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_3" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_3" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_3" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">4</td>
+            <td><input class="input" type="text" name="name_4" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_4" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_4" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_4" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">5</td>
+            <td><input class="input" type="text" name="name_5" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_5" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_5" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_5" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">6</td>
+            <td><input class="input" type="text" name="name_6" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_6" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_6" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_6" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">7</td>
+            <td><input class="input" type="text" name="name_7" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_7" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_7" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_7" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">8</td>
+            <td><input class="input" type="text" name="name_8" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_8" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_8" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_8" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">9</td>
+            <td><input class="input" type="text" name="name_9" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_9" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_9" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_9" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">10</td>
+            <td><input class="input" type="text" name="name_10" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_10" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_10" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_10" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">11</td>
+            <td><input class="input" type="text" name="name_11" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_11" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_11" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_11" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">12</td>
+            <td><input class="input" type="text" name="name_12" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_12" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_12" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_12" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">13</td>
+            <td><input class="input" type="text" name="name_13" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_13" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_13" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_13" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">14</td>
+            <td><input class="input" type="text" name="name_14" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_14" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_14" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_14" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">15</td>
+            <td><input class="input" type="text" name="name_15" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_15" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_15" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_15" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">16</td>
+            <td><input class="input" type="text" name="name_16" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_16" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_16" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_16" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">17</td>
+            <td><input class="input" type="text" name="name_17" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_17" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_17" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_17" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">18</td>
+            <td><input class="input" type="text" name="name_18" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_18" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_18" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_18" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">19</td>
+            <td><input class="input" type="text" name="name_19" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_19" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_19" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_19" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">20</td>
+            <td><input class="input" type="text" name="name_20" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_20" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_20" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_20" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">21</td>
+            <td><input class="input" type="text" name="name_21" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_21" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_21" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_21" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">22</td>
+            <td><input class="input" type="text" name="name_22" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_22" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_22" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_22" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">23</td>
+            <td><input class="input" type="text" name="name_23" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_23" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_23" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_23" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">24</td>
+            <td><input class="input" type="text" name="name_24" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_24" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_24" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_24" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">25</td>
+            <td><input class="input" type="text" name="name_25" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_25" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_25" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_25" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">26</td>
+            <td><input class="input" type="text" name="name_26" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_26" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_26" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_26" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">27</td>
+            <td><input class="input" type="text" name="name_27" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_27" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_27" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_27" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">28</td>
+            <td><input class="input" type="text" name="name_28" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_28" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_28" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_28" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">29</td>
+            <td><input class="input" type="text" name="name_29" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_29" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_29" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_29" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">30</td>
+            <td><input class="input" type="text" name="name_30" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_30" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_30" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_30" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">31</td>
+            <td><input class="input" type="text" name="name_31" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_31" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_31" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_31" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">32</td>
+            <td><input class="input" type="text" name="name_32" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_32" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_32" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_32" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">33</td>
+            <td><input class="input" type="text" name="name_33" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_33" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_33" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_33" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">34</td>
+            <td><input class="input" type="text" name="name_34" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_34" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_34" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_34" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">35</td>
+            <td><input class="input" type="text" name="name_35" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_35" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_35" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_35" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">36</td>
+            <td><input class="input" type="text" name="name_36" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_36" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_36" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_36" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">37</td>
+            <td><input class="input" type="text" name="name_37" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_37" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_37" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_37" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">38</td>
+            <td><input class="input" type="text" name="name_38" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_38" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_38" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_38" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">39</td>
+            <td><input class="input" type="text" name="name_39" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_39" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_39" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_39" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">40</td>
+            <td><input class="input" type="text" name="name_40" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_40" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_40" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_40" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">41</td>
+            <td><input class="input" type="text" name="name_41" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_41" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_41" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_41" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">42</td>
+            <td><input class="input" type="text" name="name_42" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_42" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_42" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_42" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">43</td>
+            <td><input class="input" type="text" name="name_43" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_43" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_43" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_43" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">44</td>
+            <td><input class="input" type="text" name="name_44" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_44" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_44" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_44" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">45</td>
+            <td><input class="input" type="text" name="name_45" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_45" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_45" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_45" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">46</td>
+            <td><input class="input" type="text" name="name_46" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_46" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_46" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_46" value="" autocomplete="off" /></td>
+          </tr>
+
+          <tr>
+            <td class="num">47</td>
+            <td><input class="input" type="text" name="name_47" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="start_47" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="end_47" value="" autocomplete="off" /></td>
+            <td><input class="input" type="text" name="party_47" value="" autocomplete="off" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
